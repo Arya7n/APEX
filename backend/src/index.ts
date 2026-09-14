@@ -35,8 +35,8 @@ async function bootstrap() {
   app.use(notFound);
   app.use(errorHandler);
 
-  app.listen(env.API_PORT, () => {
-    console.info(`[apex-api] listening on http://localhost:${env.API_PORT}`);
+  app.listen(env.listenPort, () => {
+    console.info(`[apex-api] listening on http://localhost:${env.listenPort}`);
   });
 }
 

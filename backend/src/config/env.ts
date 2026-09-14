@@ -7,7 +7,9 @@ loadEnv({ path: resolve(process.cwd(), "../.env") });
 
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+  /** Render sets PORT; local/dev uses API_PORT. */
   API_PORT: z.coerce.number().int().positive().default(4000),
+  PORT: z.coerce.number().int().positive().optional(),
   WEB_ORIGIN: z.string().default("http://localhost:3000"),
   MONGODB_URI: z.string().default("mongodb://127.0.0.1:27017/apex"),
   REDIS_URL: z.string().default("redis://127.0.0.1:6379"),
@@ -31,7 +33,11 @@ if (!parsed.success) {
   throw new Error("Invalid environment configuration");
 }
 
-export const env = parsed.data;
+export const env = {
+  ...parsed.data,
+  /** Prefer platform PORT (Render) when present. */
+  listenPort: parsed.data.PORT ?? parsed.data.API_PORT,
+};
 
 if (env.NODE_ENV === "production" && env.JWT_SECRET.includes("change-me")) {
   throw new Error("JWT_SECRET must be set to a strong secret in production");

@@ -67,6 +67,32 @@ Admin demo account (change in production):
 - email: `admin@apex.local`
 - password: `ApexAdmin123!`
 
+## Deploy
+
+### Backend → [Render](https://render.com)
+
+1. New **Web Service** from this repo (or use `render.yaml` Blueprint).
+2. **Root directory:** `backend`
+3. **Build:** `pnpm install --frozen-lockfile && pnpm build`
+4. **Start:** `pnpm start`
+5. Set env vars (see `backend/.env.example` production notes):
+   - `MONGODB_URI` — Atlas (allow `0.0.0.0/0` or Render IPs in Network Access)
+   - `WEB_ORIGIN` — your Vercel URL, e.g. `https://your-app.vercel.app`
+   - `JWT_SECRET` / `JWT_REFRESH_SECRET`
+   - `BIKE_DATA_PROVIDER=api-ninjas` + `API_NINJAS_API_KEY`
+   - `COOKIE_SECURE=true`, `COOKIE_SAME_SITE=none`
+   - `REDIS_URL` — optional (Upstash or omit; API runs without cache)
+6. Health check: `/api/health`
+
+### Frontend → [Vercel](https://vercel.com)
+
+1. Import repo → **Root Directory:** `frontend`
+2. Framework: Next.js (uses `frontend/vercel.json`)
+3. Env:
+   - `NEXT_PUBLIC_API_URL=https://<your-render-service>.onrender.com`
+   - `NEXT_PUBLIC_SITE_URL=https://your-app.vercel.app`
+4. Deploy, then set Render `WEB_ORIGIN` to the Vercel URL and redeploy API if needed.
+
 ## Key API routes
 
 | Method | Path | Purpose |

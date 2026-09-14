@@ -13,7 +13,7 @@ export async function connectMongo(): Promise<void> {
   try {
     mongoose.set("strictQuery", true);
     await mongoose.connect(env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 3000,
+      serverSelectionTimeoutMS: env.NODE_ENV === "production" ? 15_000 : 5_000,
     });
     mongoState = "connected";
     console.info("[apex-api] MongoDB connected");
