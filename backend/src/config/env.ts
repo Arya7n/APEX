@@ -11,6 +11,10 @@ const envSchema = z.object({
   API_PORT: z.coerce.number().int().positive().default(4000),
   PORT: z.coerce.number().int().positive().optional(),
   WEB_ORIGIN: z.string().default("http://localhost:3000"),
+  /** Comma-separated extra origins (e.g. www + apex domain). */
+  WEB_ORIGINS: z.string().optional().default(""),
+  /** When true, allow https://*.vercel.app preview deployments. */
+  ALLOW_VERCEL_PREVIEWS: z.coerce.boolean().default(false),
   MONGODB_URI: z.string().default("mongodb://127.0.0.1:27017/apex"),
   REDIS_URL: z.string().default("redis://127.0.0.1:6379"),
   BIKE_DATA_PROVIDER: z.string().default("bikespecs"),
@@ -33,10 +37,26 @@ if (!parsed.success) {
   throw new Error("Invalid environment configuration");
 }
 
+function normalizeOrigin(value: string) {
+  return value.trim().replace(/\/$/, "");
+}
+
+function collectWebOrigins(data: z.infer<typeof envSchema>) {
+  const origins = new Set<string>();
+  for (const part of [data.WEB_ORIGIN, data.WEB_ORIGINS]
+    .filter(Boolean)
+    .flatMap((value) => value.split(","))) {
+    const origin = normalizeOrigin(part);
+    if (origin) origins.add(origin);
+  }
+  return [...origins];
+}
+
 export const env = {
   ...parsed.data,
   /** Prefer platform PORT (Render) when present. */
   listenPort: parsed.data.PORT ?? parsed.data.API_PORT,
+  webOrigins: collectWebOrigins(parsed.data),
 };
 
 if (env.NODE_ENV === "production" && env.JWT_SECRET.includes("change-me")) {

@@ -8,16 +8,37 @@ import { connectRedis } from "./config/redis.js";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
 import { router } from "./routes/index.js";
 
+function isAllowedOrigin(origin: string | undefined) {
+  if (!origin) return true; // non-browser / same-origin tooling
+  const normalized = origin.replace(/\/$/, "");
+  if (env.webOrigins.includes(normalized)) return true;
+  if (
+    env.ALLOW_VERCEL_PREVIEWS &&
+    /^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(normalized)
+  ) {
+    return true;
+  }
+  return false;
+}
+
 async function bootstrap() {
   await Promise.all([connectMongo(), connectRedis()]);
 
   const app = express();
 
   app.disable("x-powered-by");
+  app.set("trust proxy", 1);
   app.use(helmet());
   app.use(
     cors({
-      origin: env.WEB_ORIGIN,
+      origin(origin, callback) {
+        if (isAllowedOrigin(origin)) {
+          callback(null, true);
+          return;
+        }
+        console.warn(`[apex-api] blocked CORS origin: ${origin}`);
+        callback(null, false);
+      },
       credentials: true,
     }),
   );
@@ -36,7 +57,8 @@ async function bootstrap() {
   app.use(errorHandler);
 
   app.listen(env.listenPort, () => {
-    console.info(`[apex-api] listening on http://localhost:${env.listenPort}`);
+    console.info(`[apex-api] listening on :${env.listenPort}`);
+    console.info(`[apex-api] CORS origins: ${env.webOrigins.join(", ") || "(none)"}`);
   });
 }
 
