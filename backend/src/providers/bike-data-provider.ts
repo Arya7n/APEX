@@ -19,10 +19,22 @@ export interface ExternalBike {
   seatHeight?: string | number | null;
   fuelCapacity?: string | number | null;
   length?: string | number | null;
+  wheelbase?: string | number | null;
   engineConfiguration?: string | null;
   cylinders?: number | null;
   cooling?: string | null;
+  compressionRatio?: string | null;
+  bore?: string | number | null;
+  stroke?: string | number | null;
+  frame?: string | null;
+  frontSuspension?: string | null;
+  rearSuspension?: string | null;
+  frontBrake?: string | null;
+  rearBrake?: string | null;
+  frontTyre?: string | null;
+  rearTyre?: string | null;
   imageId?: string | null;
+  imageUrl?: string | null;
   sourceUpdatedAt?: string | null;
   raw?: unknown;
 }
@@ -34,6 +46,7 @@ export interface BikeQuery {
   year?: number;
   page?: number;
   limit?: number;
+  offset?: number;
 }
 
 export interface BikeDataProvider {

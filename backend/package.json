@@ -11,6 +11,8 @@
     "typecheck": "tsc --noEmit",
     "seed": "tsx src/scripts/seed.ts",
     "seed:admin": "tsx src/scripts/seed-admin.ts",
+    "seed:sync": "tsx src/scripts/seed-sync.ts",
+    "seed:images": "tsx src/scripts/backfill-images.ts",
     "test": "vitest run"
   },
   "dependencies": {

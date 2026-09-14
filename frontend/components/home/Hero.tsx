@@ -4,8 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
-import { heroMachine } from "@/lib/data/featured-bikes";
-import { getMachineImageAlt, getMachineImageSrc, resolveBikeImage } from "@/lib/images";
+import { getMachineImageAlt, PLACEHOLDER_MACHINE_IMAGE, resolveBikeImage } from "@/lib/images";
 import type { Bike } from "@/lib/types";
 import { buttonClassName } from "@/components/ui/Button";
 import { CountUp } from "@/components/motion/CountUp";
@@ -14,16 +13,23 @@ import { duration, easePrecise } from "@/lib/motion";
 export function Hero({ bike }: { bike?: Bike }) {
   const reduced = useReducedMotion();
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const machine = bike ? {
-    brand: bike.brand, model: bike.model, horsepower: bike.performance.horsepower ?? 0,
-    displacement: bike.engine.displacement ?? 0, topSpeed: bike.performance.topSpeed ?? 0,
-    image: resolveBikeImage(bike),
-  } : { ...heroMachine, image: getMachineImageSrc(heroMachine.imageId) };
-  const specs = [
-    { value: machine.horsepower, suffix: "HP" },
-    { value: machine.displacement, suffix: "CC" },
-    { value: machine.topSpeed, suffix: "KM/H" },
-  ];
+  const machine = bike
+    ? {
+        brand: bike.brand,
+        model: bike.model,
+        horsepower: bike.performance.horsepower,
+        displacement: bike.engine.displacement,
+        topSpeed: bike.performance.topSpeed,
+        image: resolveBikeImage(bike),
+      }
+    : null;
+  const specs = machine
+    ? [
+        { value: machine.horsepower ?? 0, suffix: "HP", missing: machine.horsepower == null },
+        { value: machine.displacement ?? 0, suffix: "CC", missing: machine.displacement == null },
+        { value: machine.topSpeed ?? 0, suffix: "KM/H", missing: machine.topSpeed == null },
+      ]
+    : [];
 
   return (
     <section
@@ -82,7 +88,9 @@ export function Hero({ bike }: { bike?: Bike }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: duration.base, delay: 0.35, ease: easePrecise }}
           >
-            Explore the world&apos;s most iconic performance motorcycles.
+            {machine
+              ? `${machine.brand} ${machine.model} — live catalog from the performance archive.`
+              : "Explore the world's most iconic performance motorcycles."}
           </motion.p>
 
           <motion.div
@@ -110,15 +118,13 @@ export function Hero({ bike }: { bike?: Bike }) {
             <div
               className="absolute inset-0 will-change-transform"
               style={{
-                transform: reduced
-                  ? undefined
-                  : `translate3d(${offset.x}px, ${offset.y}px, 0)`,
+                transform: reduced ? undefined : `translate3d(${offset.x}px, ${offset.y}px, 0)`,
                 transition: reduced ? undefined : "transform 400ms cubic-bezier(0.16, 1, 0.3, 1)",
               }}
             >
               <Image
-                src={machine.image}
-                alt={getMachineImageAlt(machine.brand, machine.model)}
+                src={machine?.image ?? PLACEHOLDER_MACHINE_IMAGE}
+                alt={machine ? getMachineImageAlt(machine.brand, machine.model) : "APEX performance motorcycle"}
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 55vw"
@@ -129,23 +135,25 @@ export function Hero({ bike }: { bike?: Bike }) {
             <div className="pointer-events-none absolute inset-y-8 left-4 hidden w-px bg-foreground/10 lg:block" />
           </motion.div>
 
-          <motion.aside
-            className="mt-6 grid grid-cols-3 gap-2 sm:mt-8 sm:gap-3 lg:absolute lg:right-0 lg:top-1/2 lg:mt-0 lg:w-36 lg:-translate-y-1/2 lg:grid-cols-1 xl:right-2"
-            initial={reduced ? false : { opacity: 0, x: 18 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: duration.slow, delay: 0.55, ease: easePrecise }}
-          >
-            {specs.map((spec) => (
-              <div key={spec.suffix} className="min-w-0 border border-line bg-surface/80 px-2 py-3 sm:px-3">
-                <p className="font-display text-xl leading-none tracking-tight sm:text-2xl md:text-3xl">
-                  <CountUp value={spec.value} />
-                </p>
-                <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.18em] text-muted sm:text-[10px] sm:tracking-[0.24em]">
-                  {spec.suffix}
-                </p>
-              </div>
-            ))}
-          </motion.aside>
+          {specs.length > 0 ? (
+            <motion.aside
+              className="mt-6 grid grid-cols-3 gap-2 sm:mt-8 sm:gap-3 lg:absolute lg:right-0 lg:top-1/2 lg:mt-0 lg:w-36 lg:-translate-y-1/2 lg:grid-cols-1 xl:right-2"
+              initial={reduced ? false : { opacity: 0, x: 18 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: duration.slow, delay: 0.55, ease: easePrecise }}
+            >
+              {specs.map((spec) => (
+                <div key={spec.suffix} className="min-w-0 border border-line bg-surface/80 px-2 py-3 sm:px-3">
+                  <p className="font-display text-xl leading-none tracking-tight sm:text-2xl md:text-3xl">
+                    {spec.missing ? "—" : <CountUp value={spec.value} />}
+                  </p>
+                  <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.18em] text-muted sm:text-[10px] sm:tracking-[0.24em]">
+                    {spec.suffix}
+                  </p>
+                </div>
+              ))}
+            </motion.aside>
+          ) : null}
         </div>
       </div>
     </section>

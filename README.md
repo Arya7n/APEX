@@ -54,6 +54,10 @@ pnpm --dir frontend install
 pnpm --dir backend seed
 pnpm --dir backend seed:admin
 
+# Dynamic catalog from API Ninjas (+ Wikimedia photos)
+# Requires API_NINJAS_API_KEY and BIKE_DATA_PROVIDER=api-ninjas
+pnpm --dir backend seed:sync
+
 pnpm --dir backend dev     # :4000
 pnpm --dir frontend dev    # :3000
 ```

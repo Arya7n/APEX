@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Bike, BikeCardData } from "@/lib/types";
-import { getMachineImageAlt, getMachineImageSrc } from "@/lib/images";
+import { getMachineImageAlt, PLACEHOLDER_MACHINE_IMAGE, resolveBikeImage } from "@/lib/images";
 import { cn } from "@/lib/cn";
 
 function formatValue(value: number | null, suffix: string) {
@@ -21,10 +21,8 @@ export function BikeCard({
 }) {
   const apiBike = "engine" in bike;
   const imageSrc = apiBike
-    ? bike.images?.[0]?.path?.includes("/images/machines/")
-      ? bike.images[0].path
-      : getMachineImageSrc(bike.images?.[0]?.id ?? "hero-machine")
-    : (bike.imagePath ?? getMachineImageSrc(bike.imageId));
+    ? resolveBikeImage(bike)
+    : (bike.imagePath ?? PLACEHOLDER_MACHINE_IMAGE);
   const engineLabel = apiBike
     ? [bike.engine.displacement ? `${bike.engine.displacement} cc` : null, bike.engine.configuration]
         .filter(Boolean)
