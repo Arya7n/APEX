@@ -31,15 +31,15 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
         title="The archive."
         description="Search, filter, and inspect every machine in the live APEX archive."
       />
-      <section className="grid gap-6 px-5 pb-24 md:px-10 lg:grid-cols-[260px_1fr]">
+      <section className="grid gap-4 px-5 pb-24 sm:gap-6 md:px-10 lg:grid-cols-[260px_1fr]">
         <FilterPanel />
-        <div>
+        <div className="min-w-0">
           {error ? <p className="border border-accent/30 bg-accent/5 p-6 text-muted">{error}</p> : null}
-          {!error && !data?.items.length ? <p className="border border-line p-12 text-center text-muted">No machines match this calibration.</p> : null}
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {!error && !data?.items.length ? <p className="border border-line p-8 text-center text-muted sm:p-12">No machines match this calibration.</p> : null}
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {data?.items.map((bike, index) => <BikeCard key={bike.slug} bike={bike} index={(page - 1) * 12 + index + 1} className="min-w-0" />)}
           </div>
-          {data && data.pages > 1 ? <nav className="mt-8 flex items-center justify-between font-mono text-xs uppercase tracking-[.2em]">
+          {data && data.pages > 1 ? <nav className="mt-8 flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[.2em] sm:text-xs">
             {page > 1 ? <Link href={pageHref(page - 1)}>← Previous</Link> : <span />}
             <span className="text-muted">{page} / {data.pages}</span>
             {page < data.pages ? <Link href={pageHref(page + 1)}>Next →</Link> : <span />}

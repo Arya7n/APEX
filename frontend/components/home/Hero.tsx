@@ -53,7 +53,7 @@ export function Hero({ bike }: { bike?: Bike }) {
             </motion.p>
           </div>
 
-          <h1 className="mt-6 font-display text-[18vw] leading-[0.82] tracking-tight text-foreground sm:text-7xl md:text-8xl lg:text-[6.5rem]">
+          <h1 className="mt-6 font-display text-[clamp(2.75rem,14vw,6.5rem)] leading-[0.82] tracking-tight text-foreground">
             <span className="block overflow-hidden">
               <motion.span
                 className="block"
@@ -130,17 +130,17 @@ export function Hero({ bike }: { bike?: Bike }) {
           </motion.div>
 
           <motion.aside
-            className="mt-8 grid grid-cols-3 gap-3 lg:absolute lg:right-0 lg:top-1/2 lg:mt-0 lg:w-36 lg:-translate-y-1/2 lg:grid-cols-1"
+            className="mt-6 grid grid-cols-3 gap-2 sm:mt-8 sm:gap-3 lg:absolute lg:right-0 lg:top-1/2 lg:mt-0 lg:w-36 lg:-translate-y-1/2 lg:grid-cols-1 xl:right-2"
             initial={reduced ? false : { opacity: 0, x: 18 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: duration.slow, delay: 0.55, ease: easePrecise }}
           >
             {specs.map((spec) => (
-              <div key={spec.suffix} className="border border-line bg-surface/80 px-3 py-3">
-                <p className="font-display text-2xl leading-none tracking-tight md:text-3xl">
+              <div key={spec.suffix} className="min-w-0 border border-line bg-surface/80 px-2 py-3 sm:px-3">
+                <p className="font-display text-xl leading-none tracking-tight sm:text-2xl md:text-3xl">
                   <CountUp value={spec.value} />
                 </p>
-                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.24em] text-muted">
+                <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.18em] text-muted sm:text-[10px] sm:tracking-[0.24em]">
                   {spec.suffix}
                 </p>
               </div>
