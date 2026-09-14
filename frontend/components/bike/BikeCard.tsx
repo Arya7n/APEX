@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { BikeCardData } from "@/lib/types";
+import type { Bike, BikeCardData } from "@/lib/types";
 import { getMachineImageAlt, getMachineImageSrc } from "@/lib/images";
 import { cn } from "@/lib/cn";
 
@@ -15,10 +15,20 @@ export function BikeCard({
   index,
   className,
 }: {
-  bike: BikeCardData;
+  bike: BikeCardData | Bike;
   index: number;
   className?: string;
 }) {
+  const apiBike = "engine" in bike;
+  const imageSrc = apiBike
+    ? (bike.images?.[0]?.path?.includes("/images/machines/") ? bike.images[0].path : getMachineImageSrc(bike.images?.[0]?.id ?? "hero-machine"))
+    : (bike.imagePath ?? getMachineImageSrc(bike.imageId));
+  const engineLabel = apiBike
+    ? [bike.engine.displacement ? `${bike.engine.displacement} cc` : null, bike.engine.configuration].filter(Boolean).join(" ")
+    : bike.engineLabel;
+  const horsepower = apiBike ? bike.performance.horsepower : bike.horsepower;
+  const weight = apiBike ? bike.dimensions.weight : bike.weight;
+  const topSpeed = apiBike ? bike.performance.topSpeed : bike.topSpeed;
   return (
     <Link
       href={`/bike/${bike.slug}`}
@@ -30,7 +40,7 @@ export function BikeCard({
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-background">
         <Image
-          src={getMachineImageSrc(bike.imageId)}
+          src={imageSrc}
           alt={getMachineImageAlt(bike.brand, bike.model)}
           fill
           sizes="(max-width: 768px) 80vw, 380px"
@@ -55,15 +65,15 @@ export function BikeCard({
         <dl className="mt-6 grid grid-cols-3 gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
           <div>
             <dt className="text-foreground/35">Engine</dt>
-            <dd className="mt-1 text-foreground">{bike.engineLabel ?? "—"}</dd>
+            <dd className="mt-1 text-foreground">{engineLabel || "—"}</dd>
           </div>
           <div>
             <dt className="text-foreground/35">Power</dt>
-            <dd className="mt-1 text-foreground">{formatValue(bike.horsepower, "HP")}</dd>
+            <dd className="mt-1 text-foreground">{formatValue(horsepower, "HP")}</dd>
           </div>
           <div>
             <dt className="text-foreground/35">Weight</dt>
-            <dd className="mt-1 text-foreground">{formatValue(bike.weight, "KG")}</dd>
+            <dd className="mt-1 text-foreground">{formatValue(weight, "KG")}</dd>
           </div>
         </dl>
 
@@ -72,7 +82,7 @@ export function BikeCard({
             <dl className="mt-4 flex gap-6 border-t border-line pt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
               <div>
                 <dt className="text-foreground/35">Speed</dt>
-                <dd className="mt-1 text-foreground">{formatValue(bike.topSpeed, "KM/H")}</dd>
+                <dd className="mt-1 text-foreground">{formatValue(topSpeed, "KM/H")}</dd>
               </div>
               <div>
                 <dt className="text-foreground/35">Class</dt>

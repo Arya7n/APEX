@@ -7,7 +7,13 @@ export type BikeCategory =
   | "track"
   | "legend";
 
-export type BikeSource = "bikespecs" | "manual";
+export type BikeSource = "bikespecs" | "api-ninjas" | "seed" | "manual";
+
+export interface FieldOverride {
+  sourceValue: unknown;
+  overrideValue: unknown;
+  isOverridden: boolean;
+}
 
 export interface BikeEngine {
   displacement: number | null;
@@ -32,6 +38,7 @@ export interface BikeDimensions {
   seatHeight: number | null;
   wheelbase: number | null;
   fuelCapacity: number | null;
+  length: number | null;
 }
 
 export interface BikeChassis {
@@ -104,6 +111,7 @@ export interface Bike {
   aerodynamics: BikeAerodynamics;
   pricing: BikePricing;
   derivedMetrics: BikeDerivedMetrics;
+  overrides: Record<string, FieldOverride>;
   metadata: BikeMetadata;
 }
 

@@ -1,3 +1,5 @@
+import type { Bike } from "@/lib/types";
+
 const MACHINE_IMAGES: Record<string, string> = {
   "hero-machine": "/images/machines/hero-machine.png",
   "featured-01": "/images/machines/featured-01.png",
@@ -14,4 +16,11 @@ export function getMachineImageSrc(imageId: string): string {
 
 export function getMachineImageAlt(brand: string, model: string): string {
   return `${brand} ${model}`;
+}
+
+export function resolveBikeImage(bike: Pick<Bike, "images">): string {
+  const image = bike.images?.[0];
+  if (image?.path?.includes("/images/machines/")) return image.path;
+  if (image?.id) return getMachineImageSrc(image.id);
+  return getMachineImageSrc("hero-machine");
 }

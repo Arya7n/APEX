@@ -1,13 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearch } from "./SearchProvider";
-import { featuredMachines } from "@/lib/data/featured-bikes";
+import { searchAll } from "@/lib/api";
+import type { SearchResult } from "@/lib/types";
 
 export function SearchOverlay() {
   const { open, setOpen } = useSearch();
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState<SearchResult>({ bikes: [], articles: [], brands: [] });
+  const [loading, setLoading] = useState(false);
 
   const close = useCallback(() => {
     setQuery("");
@@ -29,12 +32,10 @@ export function SearchOverlay() {
     };
   }, [open, close]);
 
-  const results = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    if (needle.length < 2) return [];
-    return featuredMachines.filter((bike) =>
-      `${bike.brand} ${bike.model} ${bike.category}`.toLowerCase().includes(needle),
-    );
+  useEffect(() => {
+    if (query.trim().length < 2) return;
+    const timer = setTimeout(() => { setLoading(true); searchAll(query).then(setResults).catch(() => setResults({ bikes: [], articles: [], brands: [] })).finally(() => setLoading(false)); }, 280);
+    return () => clearTimeout(timer);
   }, [query]);
 
   if (!open) return null;
@@ -48,15 +49,15 @@ export function SearchOverlay() {
         <input
           autoFocus
           value={query}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => { setQuery(event.target.value); if (event.target.value.trim().length < 2) setResults({ bikes: [], articles: [], brands: [] }); }}
           placeholder="Search machines"
           className="mt-4 w-full border-b border-foreground/20 bg-transparent pb-4 font-display text-4xl text-foreground outline-none placeholder:text-foreground/20 md:text-6xl"
         />
         <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.24em] text-muted">
-          Temporary index — APEX API search in Phase 4
+          {loading ? "Searching live archive…" : `${results.bikes.length + results.articles.length + results.brands.length} results`}
         </p>
         <ul className="mt-10 space-y-0 overflow-y-auto">
-          {results.map((bike) => (
+          {results.bikes.map((bike) => (
             <li key={bike.slug} className="border-t border-line">
               <Link
                 href={`/bike/${bike.slug}`}
@@ -72,6 +73,8 @@ export function SearchOverlay() {
               </Link>
             </li>
           ))}
+          {results.articles.map((article) => <li key={article.slug} className="border-t border-line"><Link href={`/learn/${article.slug}`} onClick={close} className="flex items-baseline justify-between py-5 hover:text-accent"><span className="font-display text-2xl">{article.title}</span><span className="font-mono text-[10px] uppercase tracking-widest text-muted">Article</span></Link></li>)}
+          {results.brands.map((brand) => <li key={brand.slug} className="border-t border-line"><Link href={`/explore?brand=${encodeURIComponent(brand.name)}`} onClick={close} className="flex items-baseline justify-between py-5 hover:text-accent"><span className="font-display text-2xl">{brand.name}</span><span className="font-mono text-[10px] uppercase tracking-widest text-muted">Brand</span></Link></li>)}
         </ul>
         <button
           type="button"

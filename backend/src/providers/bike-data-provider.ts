@@ -9,7 +9,22 @@ export interface ExternalBike {
   model: string;
   variant?: string | null;
   year?: number | null;
-  raw: unknown;
+  category?: string | null;
+  description?: string | null;
+  power?: string | number | null;
+  torque?: string | number | null;
+  weight?: string | number | null;
+  displacement?: string | number | null;
+  topSpeed?: string | number | null;
+  seatHeight?: string | number | null;
+  fuelCapacity?: string | number | null;
+  length?: string | number | null;
+  engineConfiguration?: string | null;
+  cylinders?: number | null;
+  cooling?: string | null;
+  imageId?: string | null;
+  sourceUpdatedAt?: string | null;
+  raw?: unknown;
 }
 
 export interface BikeQuery {

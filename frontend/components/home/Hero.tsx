@@ -5,20 +5,25 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import { heroMachine } from "@/lib/data/featured-bikes";
-import { getMachineImageAlt, getMachineImageSrc } from "@/lib/images";
+import { getMachineImageAlt, getMachineImageSrc, resolveBikeImage } from "@/lib/images";
+import type { Bike } from "@/lib/types";
 import { buttonClassName } from "@/components/ui/Button";
 import { CountUp } from "@/components/motion/CountUp";
 import { duration, easePrecise } from "@/lib/motion";
 
-const specs = [
-  { value: heroMachine.horsepower, suffix: "HP" },
-  { value: heroMachine.displacement, suffix: "CC" },
-  { value: heroMachine.topSpeed, suffix: "KM/H" },
-] as const;
-
-export function Hero() {
+export function Hero({ bike }: { bike?: Bike }) {
   const reduced = useReducedMotion();
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const machine = bike ? {
+    brand: bike.brand, model: bike.model, horsepower: bike.performance.horsepower ?? 0,
+    displacement: bike.engine.displacement ?? 0, topSpeed: bike.performance.topSpeed ?? 0,
+    image: resolveBikeImage(bike),
+  } : { ...heroMachine, image: getMachineImageSrc(heroMachine.imageId) };
+  const specs = [
+    { value: machine.horsepower, suffix: "HP" },
+    { value: machine.displacement, suffix: "CC" },
+    { value: machine.topSpeed, suffix: "KM/H" },
+  ];
 
   return (
     <section
@@ -112,8 +117,8 @@ export function Hero() {
               }}
             >
               <Image
-                src={getMachineImageSrc(heroMachine.imageId)}
-                alt={getMachineImageAlt(heroMachine.brand, heroMachine.model)}
+                src={machine.image}
+                alt={getMachineImageAlt(machine.brand, machine.model)}
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 55vw"

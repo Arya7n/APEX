@@ -4,6 +4,7 @@ export const NAV_LINKS = [
   { href: "/lab", label: "Lab" },
   { href: "/rankings", label: "Rankings" },
   { href: "/learn", label: "Learn" },
+  { href: "/find-your-bike", label: "Find" },
 ] as const;
 
 export const SITE_NAME = "APEX";

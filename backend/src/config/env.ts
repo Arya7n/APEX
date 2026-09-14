@@ -14,7 +14,14 @@ const envSchema = z.object({
   BIKE_DATA_PROVIDER: z.string().default("bikespecs"),
   BIKESPECS_API_KEY: z.string().optional().default(""),
   BIKESPECS_API_BASE_URL: z.string().default("https://api.bikespecs.org"),
+  API_NINJAS_API_KEY: z.string().optional().default(""),
+  API_NINJAS_API_BASE_URL: z.string().default("https://api.api-ninjas.com"),
   JWT_SECRET: z.string().min(16).default("apex-dev-only-change-me-now"),
+  JWT_REFRESH_SECRET: z.string().min(16).default("apex-refresh-dev-change-me"),
+  JWT_ACCESS_EXPIRES: z.string().default("15m"),
+  JWT_REFRESH_EXPIRES: z.string().default("30d"),
+  COOKIE_SECURE: z.coerce.boolean().default(false),
+  COOKIE_SAME_SITE: z.enum(["lax", "strict", "none"]).default("lax"),
 });
 
 const parsed = envSchema.safeParse(process.env);
