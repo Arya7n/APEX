@@ -3,20 +3,13 @@
   "private": true,
   "version": "0.1.0",
   "description": "APEX — motorcycle intelligence platform",
-  "packageManager": "pnpm@9.15.0",
   "scripts": {
-    "dev": "turbo dev",
-    "dev:web": "pnpm --filter @apex/web dev",
-    "dev:api": "pnpm --filter @apex/api dev",
-    "build": "turbo build",
-    "lint": "turbo lint",
-    "typecheck": "turbo typecheck",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
-  },
-  "devDependencies": {
-    "prettier": "^3.5.3",
-    "turbo": "^2.5.4",
-    "typescript": "^5.8.3"
+    "dev:frontend": "pnpm --dir frontend dev",
+    "dev:backend": "pnpm --dir backend dev",
+    "build:frontend": "pnpm --dir frontend build",
+    "build:backend": "pnpm --dir backend build",
+    "lint:frontend": "pnpm --dir frontend lint",
+    "typecheck:frontend": "pnpm --dir frontend typecheck",
+    "typecheck:backend": "pnpm --dir backend typecheck"
   }
 }

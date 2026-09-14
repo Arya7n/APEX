@@ -1,5 +1,4 @@
 node_modules
-.turbo
 dist
 build
 .next
@@ -14,4 +13,6 @@ Thumbs.db
 *.tsbuildinfo
 .vercel
 .cache
-apps/api/uploads
+backend/uploads
+/apps
+/packages
