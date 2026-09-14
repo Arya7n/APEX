@@ -35,9 +35,9 @@ export default async function BikePage({
 
   return (
     <>
-      <section className="relative overflow-hidden px-5 pb-10 pt-32 md:px-10 md:pt-40">
+      <section className="relative overflow-x-clip px-5 pb-10 pt-32 md:px-10 md:pt-40">
         <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-muted">{bike.brand}</p>
-        <h1 className="mt-3 break-words font-display text-4xl tracking-tight sm:text-5xl md:text-7xl">{bike.model}</h1>
+        <h1 className="mt-3 break-words font-display text-4xl leading-[1.02] tracking-tight sm:text-5xl md:text-7xl">{bike.model}</h1>
         <div className="relative mx-auto mt-8 aspect-[16/10] max-w-5xl sm:aspect-[16/9]">
           <Image
             src={resolveBikeImage(bike)}

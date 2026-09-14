@@ -16,7 +16,7 @@ export function SectionHeader({
     <header className={cn("flex flex-col gap-4", className)}>
       <TechnicalLabel index={index}>{label}</TechnicalLabel>
       {title ? (
-        <h2 className="max-w-xl font-display text-3xl leading-none tracking-tight text-foreground md:text-5xl">
+        <h2 className="max-w-xl break-words font-display text-3xl leading-[1.05] tracking-tight text-foreground md:text-5xl">
           {title}
         </h2>
       ) : null}

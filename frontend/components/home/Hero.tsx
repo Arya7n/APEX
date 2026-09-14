@@ -33,7 +33,7 @@ export function Hero({ bike }: { bike?: Bike }) {
 
   return (
     <section
-      className="relative min-h-[100svh] overflow-hidden"
+      className="relative min-h-[100svh] overflow-x-clip"
       onMouseMove={(event) => {
         if (reduced) return;
         const rect = event.currentTarget.getBoundingClientRect();
@@ -46,40 +46,34 @@ export function Hero({ bike }: { bike?: Bike }) {
         APEX
       </p>
 
-      <div className="relative z-10 mx-auto grid min-h-[100svh] max-w-[1600px] grid-cols-1 items-end gap-10 px-5 pb-16 pt-28 md:px-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center lg:pb-20 lg:pt-24">
-        <div className="max-w-xl">
-          <div className="overflow-hidden">
-            <motion.p
-              initial={reduced ? false : { y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: duration.base, ease: easePrecise }}
-              className="font-mono text-[11px] uppercase tracking-[0.32em] text-muted"
-            >
-              Digital showroom
-            </motion.p>
-          </div>
+      <div className="relative z-10 mx-auto grid min-h-[100svh] max-w-[1600px] grid-cols-1 items-end gap-10 px-5 pb-16 pt-28 md:px-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center lg:pb-20 lg:pt-24">
+        <div className="min-w-0">
+          <motion.p
+            initial={reduced ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: duration.base, ease: easePrecise }}
+            className="font-mono text-[11px] uppercase tracking-[0.32em] text-muted"
+          >
+            Digital showroom
+          </motion.p>
 
-          <h1 className="mt-6 font-display text-[clamp(2.75rem,14vw,6.5rem)] leading-[0.82] tracking-tight text-foreground">
-            <span className="block overflow-hidden">
-              <motion.span
-                className="block"
-                initial={reduced ? false : { y: "110%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.9, ease: easePrecise, delay: 0.08 }}
-              >
-                Performance,
-              </motion.span>
-            </span>
-            <span className="block overflow-hidden">
-              <motion.span
-                className="block"
-                initial={reduced ? false : { y: "110%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.9, ease: easePrecise, delay: 0.16 }}
-              >
-                Engineered<span className="text-accent">.</span>
-              </motion.span>
-            </span>
+          <h1 className="mt-6 max-w-[14ch] font-display text-[clamp(2.5rem,11vw,5.75rem)] leading-[0.95] tracking-tight text-foreground sm:max-w-none">
+            <motion.span
+              className="block"
+              initial={reduced ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: easePrecise, delay: 0.08 }}
+            >
+              Performance,
+            </motion.span>
+            <motion.span
+              className="block"
+              initial={reduced ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: easePrecise, delay: 0.16 }}
+            >
+              Engineered<span className="text-accent">.</span>
+            </motion.span>
           </h1>
 
           <motion.p
@@ -108,12 +102,12 @@ export function Hero({ bike }: { bike?: Bike }) {
           </motion.div>
         </div>
 
-        <div className="relative">
+        <div className="relative min-w-0">
           <motion.div
             className="relative mx-auto aspect-[16/10] w-full max-w-4xl lg:aspect-[16/11]"
-            initial={reduced ? false : { clipPath: "inset(0 100% 0 0)" }}
-            animate={{ clipPath: "inset(0 0% 0 0)" }}
-            transition={{ duration: 1.15, ease: easePrecise, delay: 0.2 }}
+            initial={reduced ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.0, ease: easePrecise, delay: 0.2 }}
           >
             <div
               className="absolute inset-0 will-change-transform"
@@ -144,7 +138,7 @@ export function Hero({ bike }: { bike?: Bike }) {
             >
               {specs.map((spec) => (
                 <div key={spec.suffix} className="min-w-0 border border-line bg-surface/80 px-2 py-3 sm:px-3">
-                  <p className="font-display text-xl leading-none tracking-tight sm:text-2xl md:text-3xl">
+                  <p className="font-display text-xl leading-tight tracking-tight sm:text-2xl md:text-3xl">
                     {spec.missing ? "—" : <CountUp value={spec.value} />}
                   </p>
                   <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.18em] text-muted sm:text-[10px] sm:tracking-[0.24em]">

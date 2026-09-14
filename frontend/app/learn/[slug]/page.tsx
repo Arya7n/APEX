@@ -25,7 +25,7 @@ export default async function ArticlePage({
       <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-accent">
         APEX field notes · {new Date(article.publishedAt).toLocaleDateString()}
       </p>
-      <h1 className="mt-6 break-words font-display text-4xl leading-[0.95] tracking-tight sm:text-5xl md:text-7xl">
+      <h1 className="mt-6 break-words font-display text-4xl leading-[1.02] tracking-tight sm:text-5xl md:text-7xl">
         {article.title}
       </h1>
       {article.excerpt ? (

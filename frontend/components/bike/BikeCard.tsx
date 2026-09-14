@@ -57,7 +57,7 @@ export function BikeCard({
       <div className="flex flex-1 flex-col border-t border-line p-4 sm:p-5">
         <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted">{bike.brand}</p>
         <div className="mt-2 flex items-start justify-between gap-3">
-          <h3 className="min-w-0 break-words font-display text-xl leading-none tracking-tight sm:text-2xl md:text-[1.75rem]">
+          <h3 className="min-w-0 break-words font-display text-xl leading-tight tracking-tight sm:text-2xl md:text-[1.75rem]">
             {bike.model}
           </h3>
           <span className="mt-1 shrink-0 font-mono text-sm text-muted transition-transform duration-500 group-hover:translate-x-1 group-hover:text-accent">
