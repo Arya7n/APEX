@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import { getMachineImageAlt, PLACEHOLDER_MACHINE_IMAGE, resolveBikeImage } from "@/lib/images";
 import type { Bike } from "@/lib/types";
 import { buttonClassName } from "@/components/ui/Button";
+import { BikeImage } from "@/components/bike/BikeImage";
 import { CountUp } from "@/components/motion/CountUp";
 import { duration, easePrecise } from "@/lib/motion";
 
@@ -116,7 +116,7 @@ export function Hero({ bike }: { bike?: Bike }) {
                 transition: reduced ? undefined : "transform 400ms cubic-bezier(0.16, 1, 0.3, 1)",
               }}
             >
-              <Image
+              <BikeImage
                 src={machine?.image ?? PLACEHOLDER_MACHINE_IMAGE}
                 alt={machine ? getMachineImageAlt(machine.brand, machine.model) : "APEX performance motorcycle"}
                 fill
