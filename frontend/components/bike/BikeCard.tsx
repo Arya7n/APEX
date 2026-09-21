@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Bike, BikeCardData } from "@/lib/types";
 import { getMachineImageAlt, PLACEHOLDER_MACHINE_IMAGE, resolveBikeImage } from "@/lib/images";
+import { BikeImage } from "@/components/bike/BikeImage";
 import { cn } from "@/lib/cn";
 
 function formatValue(value: number | null, suffix: string) {
@@ -42,7 +42,7 @@ export function BikeCard({
       )}
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-background">
-        <Image
+        <BikeImage
           src={imageSrc}
           alt={getMachineImageAlt(bike.brand, bike.model)}
           fill
