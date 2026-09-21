@@ -2,6 +2,7 @@
   "name": "apex-backend",
   "version": "0.1.0",
   "private": true,
+  "description": "APEX Express API — MongoDB catalog, auth, and bike provider sync",
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
