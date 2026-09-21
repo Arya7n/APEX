@@ -77,7 +77,7 @@ Admin demo account (change in production):
 4. **Start:** `pnpm start`
 5. Set env vars (see `backend/.env.example` production notes):
    - `MONGODB_URI` — Atlas (allow `0.0.0.0/0` or Render IPs in Network Access)
-   - `WEB_ORIGIN` — your Vercel URL, e.g. `https://your-app.vercel.app`
+   - `WEB_ORIGIN` — full Vercel origin with scheme, e.g. `https://your-app.vercel.app` (not bare hostname)
    - `JWT_SECRET` / `JWT_REFRESH_SECRET`
    - `BIKE_DATA_PROVIDER=api-ninjas` + `API_NINJAS_API_KEY`
    - `COOKIE_SECURE=true`, `COOKIE_SAME_SITE=none`
