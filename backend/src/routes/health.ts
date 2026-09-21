@@ -17,5 +17,6 @@ export function healthHandler(_req: Request, res: Response) {
     redis,
   };
 
+  res.setHeader("Cache-Control", "no-store");
   res.status(200).json(payload);
 }
