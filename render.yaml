@@ -1,5 +1,6 @@
 # Render Blueprint — APEX API
 # https://render.com/docs/blueprint-spec
+# WEB_ORIGIN must be a full origin, e.g. https://your-app.vercel.app
 services:
   - type: web
     name: apex-api
