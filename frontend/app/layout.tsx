@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s | APEX",
   },
   description:
-    "Explore the world's most iconic performance motorcycles. Specs, comparison, and performance intelligence.",
+    "Motorcycle intelligence platform — specs, comparison, rankings, and a live performance archive.",
 };
 
 export default async function RootLayout({
