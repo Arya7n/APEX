@@ -2,6 +2,7 @@ node_modules
 .turbo
 dist
 .next
+.vercel
 coverage
 pnpm-lock.yaml
 *.tsbuildinfo
