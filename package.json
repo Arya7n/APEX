@@ -10,6 +10,8 @@
     "build:backend": "pnpm --dir backend build",
     "lint:frontend": "pnpm --dir frontend lint",
     "typecheck:frontend": "pnpm --dir frontend typecheck",
-    "typecheck:backend": "pnpm --dir backend typecheck"
+    "typecheck:backend": "pnpm --dir backend typecheck",
+    "seed:sync": "pnpm --dir backend seed:sync",
+    "seed:images": "pnpm --dir backend seed:images"
   }
 }
