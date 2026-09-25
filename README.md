@@ -29,7 +29,7 @@ External bike API (BikeSpecs / API Ninjas)
 | --- | --- | --- |
 | **BikeSpecs.org** | **DOWN** (Cloudflare 521) | Preferred provider. No public docs while host is offline. |
 | **API Ninjas Motorcycles** | UP, needs key | Set `API_NINJAS_API_KEY` and `BIKE_DATA_PROVIDER=api-ninjas` |
-| **APEX Mongo seed** | Working | 26 curated machines with manufacturer-published fields; nulls when unknown |
+| **APEX Mongo seed** | Working | Static seed bootstrap; prefer `pnpm --dir backend seed:sync` for live API Ninjas catalog |
 
 Check live provider reachability:
 
