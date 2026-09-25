@@ -13,6 +13,7 @@ Thumbs.db
 *.tsbuildinfo
 .vercel
 .cache
+.idea
 backend/uploads
 /apps
 /packages
