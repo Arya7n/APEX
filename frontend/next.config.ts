@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Remote bike photos come from Wikipedia/Commons during catalog sync.
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
